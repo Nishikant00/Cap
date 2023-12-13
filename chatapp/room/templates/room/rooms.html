@@ -1,0 +1,39 @@
+{%extends 'chat/layout.html' %}
+{%block title%}
+Rooms
+{%endblock%}
+
+{%block content%}
+<div id="Header">
+    <h1>Create a room</h1>
+</div>
+<form action="{%url 'create'%}"method='post'>
+    {%csrf_token%}
+    
+    <div class="form-group" style="display: flex; align-items: center; flex-direction: column; flex-basis: auto ;">
+      <input type="text" name="creator" class="form-control" placeholder="Room Name" style="width:300px;">
+    
+    <input type="submit" value="Create"class="btn btn-dark" style="margin-top:5px;">
+</div>
+</form>
+
+<div id="Header">
+    <h1>Rooms</h1>
+</div>
+{% if error %}
+    <div class="alert alert-danger" role="alert"style="display:flex; justify-content: center;">It already exists in the rooms try an unique name</div>
+{%endif%}
+{% if err %}
+    <div class="alert alert-danger" role="alert"style="display:flex; justify-content: center;">Blank names are not allowed</div>
+{%endif%}
+<div class="roomss" style="display:flex; justify-content: center; flex-wrap: wrap;">
+    {%for r in rooms%}
+    <div class="card w-20" style="display:flex; justify-content: center; flex-direction: column; align-items: center; margin: 10px;">
+        <div class="card-body">
+          <h5 class="card-title">{{r.name}}</h5>
+          <a href="{% url 'room' r.slug %}" class="btn btn-primary">Join</a>
+        </div>
+      </div>
+    {%endfor%}
+</div>
+{%endblock%}
